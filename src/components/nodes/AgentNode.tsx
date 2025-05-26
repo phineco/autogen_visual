@@ -1,8 +1,57 @@
-import React from 'react';
-import { Handle, Position, NodeProps } from 'reactflow';
+import React, { useState, useRef, useEffect, KeyboardEvent } from 'react';
+import { Handle, Position, NodeProps, useReactFlow } from 'reactflow';
 import { AgentNodeData } from '../../types';
 
-const AgentNode: React.FC<NodeProps<AgentNodeData>> = ({ data, selected }) => {
+const AgentNode: React.FC<NodeProps<AgentNodeData>> = ({ data, selected, id }) => {
+  const { setNodes } = useReactFlow();
+  const [isEditing, setIsEditing] = useState(false);
+  const [editingName, setEditingName] = useState(data.name);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (isEditing && inputRef.current) {
+      inputRef.current.focus();
+      inputRef.current.select(); // Select all text when focused
+    }
+  }, [isEditing]);
+
+  const handleNameClick = () => {
+    setEditingName(data.name || '');
+    setIsEditing(true);
+  };
+
+  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEditingName(event.target.value);
+  };
+
+  const saveName = () => {
+    if (editingName !== data.name) {
+      setNodes((nds) =>
+        nds.map((node) =>
+          node.id === id
+            ? { ...node, data: { ...node.data, name: editingName } }
+            : node
+        )
+      );
+    }
+  };
+
+  const handleNameBlur = () => {
+    saveName();
+    setIsEditing(false);
+  };
+
+  const handleNameKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      saveName();
+      setIsEditing(false);
+    } else if (event.key === 'Escape') {
+      setIsEditing(false);
+      // No save, editingName will be reset on next click or if component re-renders with new data.name
+    }
+  };
+
   return (
     <div className={`custom-node agent-node ${selected ? 'selected' : ''}`}>
       {/* 输入连接点 */}
@@ -27,7 +76,21 @@ const AgentNode: React.FC<NodeProps<AgentNodeData>> = ({ data, selected }) => {
       <div className="node-body">
         <div className="node-field">
           <label>名称:</label>
-          <span>{data.name || 'Unnamed Agent'}</span>
+          {isEditing ? (
+            <input
+              ref={inputRef}
+              type="text"
+              value={editingName}
+              onChange={handleNameChange}
+              onBlur={handleNameBlur}
+              onKeyDown={handleNameKeyDown}
+              className="editing-name-input"
+            />
+          ) : (
+            <span onClick={handleNameClick} style={{ cursor: 'text' }}>
+              {data.name || 'Unnamed Agent'}
+            </span>
+          )}
         </div>
         
         {data.description && (

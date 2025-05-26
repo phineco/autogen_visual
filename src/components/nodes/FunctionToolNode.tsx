@@ -1,8 +1,68 @@
-import React from 'react';
-import { Handle, Position, NodeProps } from 'reactflow';
+import React, { useState, useRef, useEffect, KeyboardEvent } from 'react';
+import { Handle, Position, NodeProps, useReactFlow } from 'reactflow';
 import { FunctionToolNodeData } from '../../types';
 
-const FunctionToolNode: React.FC<NodeProps<FunctionToolNodeData>> = ({ data, selected }) => {
+const FunctionToolNode: React.FC<NodeProps<FunctionToolNodeData>> = ({ data, selected, id }) => {
+  const { setNodes } = useReactFlow();
+  const [isEditing, setIsEditing] = useState(false);
+  const [editingName, setEditingName] = useState(data.name || 'unnamed_function');
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  // Update editingName if data.name changes from props (e.g. undo/redo or property panel)
+  // and not currently editing
+  useEffect(() => {
+    if (!isEditing) {
+      setEditingName(data.name || 'unnamed_function');
+    }
+  }, [data.name, isEditing]);
+
+  // Focus and select input when editing starts
+  useEffect(() => {
+    if (isEditing && inputRef.current) {
+      inputRef.current.focus();
+      inputRef.current.select();
+    }
+  }, [isEditing]);
+
+  const handleNameClick = () => {
+    setEditingName(data.name || 'unnamed_function'); // Ensure current name is used
+    setIsEditing(true);
+  };
+
+  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEditingName(event.target.value);
+  };
+
+  const saveName = () => {
+    const finalName = editingName.trim() || 'unnamed_function';
+    if (finalName !== data.name) {
+      setNodes((nds) =>
+        nds.map((node) =>
+          node.id === id
+            ? { ...node, data: { ...node.data, name: finalName } }
+            : node
+        )
+      );
+    }
+    setEditingName(finalName); // Update state to reflect trimmed/defaulted name
+  };
+
+  const handleNameBlur = () => {
+    saveName();
+    setIsEditing(false);
+  };
+
+  const handleNameKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      saveName();
+      setIsEditing(false);
+    } else if (event.key === 'Escape') {
+      setEditingName(data.name || 'unnamed_function'); // Revert to original name from data
+      setIsEditing(false);
+    }
+  };
+
   return (
     <div className={`custom-node function-node ${selected ? 'selected' : ''}`}>
       {/* 节点内容 */}
@@ -22,7 +82,25 @@ const FunctionToolNode: React.FC<NodeProps<FunctionToolNodeData>> = ({ data, sel
       <div className="node-body">
         <div className="node-field">
           <label>函数名:</label>
-          <span className="function-name">{data.name || 'unnamed_function'}</span>
+          {isEditing ? (
+            <input
+              ref={inputRef}
+              type="text"
+              value={editingName}
+              onChange={handleNameChange}
+              onBlur={handleNameBlur}
+              onKeyDown={handleNameKeyDown}
+              className="editing-name-input"
+            />
+          ) : (
+            <span
+              className="function-name"
+              onClick={handleNameClick}
+              style={{ cursor: 'text' }}
+            >
+              {data.name || 'unnamed_function'}
+            </span>
+          )}
         </div>
         
         <div className="node-field">

@@ -147,6 +147,7 @@ const App: React.FC = () => {
       case 'runner':
         data = {
           id,
+          name: 'New Runner', // Added name field
           input: '',
           context: '',
           execution_mode: 'sync',
