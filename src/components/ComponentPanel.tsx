@@ -10,15 +10,6 @@ const ComponentPanel: React.FC<ComponentPanelProps> = ({ onAddNode }) => {
     event.dataTransfer.effectAllowed = 'move';
   };
 
-  const handleAddNode = (type: 'agent' | 'runner' | 'functionTool') => {
-    // 在画布中央添加节点
-    const position = {
-      x: Math.random() * 400 + 200,
-      y: Math.random() * 300 + 150,
-    };
-    onAddNode(type, position);
-  };
-
   return (
     <div className="component-panel">
       <div className="panel-header">
@@ -31,7 +22,6 @@ const ComponentPanel: React.FC<ComponentPanelProps> = ({ onAddNode }) => {
           className="component-item agent-component"
           draggable
           onDragStart={(e) => onDragStart(e, 'agent')}
-          onClick={() => handleAddNode('agent')}
         >
           <div className="component-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -51,7 +41,6 @@ const ComponentPanel: React.FC<ComponentPanelProps> = ({ onAddNode }) => {
           className="component-item runner-component"
           draggable
           onDragStart={(e) => onDragStart(e, 'runner')}
-          onClick={() => handleAddNode('runner')}
         >
           <div className="component-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -70,7 +59,6 @@ const ComponentPanel: React.FC<ComponentPanelProps> = ({ onAddNode }) => {
           className="component-item function-component"
           draggable
           onDragStart={(e) => onDragStart(e, 'functionTool')}
-          onClick={() => handleAddNode('functionTool')}
         >
           <div className="component-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">

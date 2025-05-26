@@ -10,6 +10,7 @@ export interface AgentNodeData {
 
 export interface RunnerNodeData {
   id: string;
+  name?: string; // Added for inline editing
   input: string;
   context: string;
   execution_mode: 'sync' | 'async';
