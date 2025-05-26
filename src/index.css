@@ -1,0 +1,215 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* React Flow Styles */
+.react-flow__handle {
+  width: 8px;
+  height: 8px;
+  background: #1890ff;
+  border: 2px solid white;
+  border-radius: 50%;
+}
+
+.react-flow__handle-left {
+  left: -4px;
+}
+
+.react-flow__handle-right {
+  right: -4px;
+}
+
+/* Modal Styles */
+.ant-modal-content {
+  border-radius: 8px;
+}
+
+/* Code Editor Styles */
+.code-editor {
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+/* Component Panel Styles */
+.component-panel {
+  width: 250px;
+  background: white;
+  border-right: 1px solid #e8e8e8;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.component-item {
+  padding: 12px;
+  margin-bottom: 8px;
+  background: #f5f5f5;
+  border: 1px solid #e8e8e8;
+  border-radius: 6px;
+  cursor: grab;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.component-item:hover {
+  background: #e6f7ff;
+  border-color: #1890ff;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.component-item:active {
+  cursor: grabbing;
+}
+
+.component-item .anticon {
+  color: #1890ff;
+  font-size: 16px;
+}
+
+.component-item span {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+/* Property Panel Styles */
+.property-panel {
+  width: 300px;
+  background: white;
+  border-left: 1px solid #e8e8e8;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.panel-header {
+  padding: 16px;
+  border-bottom: 1px solid #e8e8e8;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background: #fafafa;
+}
+
+.panel-header-left h3 {
+  margin: 0 0 8px 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.panel-header-right {
+  display: flex;
+  align-items: center;
+}
+
+.node-type-badge {
+  background: #e6f7ff;
+  color: #1890ff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.panel-content {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.node-info {
+  margin-bottom: 16px;
+  padding: 12px;
+  background: #f5f5f5;
+  border-radius: 6px;
+}
+
+.node-id {
+  font-size: 12px;
+  color: #666;
+  font-family: monospace;
+}
+
+.properties-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.property-section {
+  border: 1px solid #e8e8e8;
+  border-radius: 6px;
+  padding: 16px;
+}
+
+.property-section h4 {
+  margin: 0 0 16px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* App Layout Styles */
+.app {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  background: white;
+  border-bottom: 1px solid #e8e8e8;
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.app-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1890ff;
+}
+
+.btn {
+  margin-left: 8px;
+}
+
+.app-content {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+.canvas-container {
+  flex: 1;
+  position: relative;
+  background: #f5f5f5;
+}
+
+.workflow-canvas {
+  flex: 1;
+  position: relative;
+}
+
+.top-toolbar {
+  background: white;
+  border-bottom: 1px solid #e8e8e8;
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
